@@ -1,7 +1,11 @@
 module CC.IO where
 
+import Effect (Effect)
+
+
 
 -- Effect
+--- RANDOM, DATE NOW, Crypto
 -- check puresript book how to teach this
 -- FFI??
 -- check puresript book how to teach this
