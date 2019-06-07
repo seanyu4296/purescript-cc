@@ -5,7 +5,6 @@ import Prelude
 import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Aff (Aff, catchError, launchAff_, runAff_)
-import Effect.Console (log)
 import Unsafe.Coerce (unsafeCoerce)
 
 
