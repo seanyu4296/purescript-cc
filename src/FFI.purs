@@ -17,6 +17,8 @@ foreign import random :: Effect Number
 logWithPrefix :: String -> String -> Effect Unit
 logWithPrefix pref s = runEffectFn2 _logWithPrefix pref s
 
+-- Effect
+--- RANDOM, DATE NOW, Crypto
 
 add :: Int -> Int -> Int
 add x y = runFn2 _add x y

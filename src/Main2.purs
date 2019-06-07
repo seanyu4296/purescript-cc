@@ -1,4 +1,4 @@
-module Main where
+module Main2 where
 
 import Prelude
 
@@ -9,28 +9,17 @@ import Effect.Console (log)
 import Unsafe.Coerce (unsafeCoerce)
 
 
--- launchAff  = Effect (Fiber a )
--- launchAff_ = Effect Unit
--- run
-
-
 fakeSendToHttp :: forall a. a -> Effect Unit
 fakeSendToHttp = unsafeCoerce
 
+-- equivalent of unsafeRun but important that
+-- Aff is a MonadThrow
+unsafeRunAff :: forall a. Aff a -> Effect Unit
+unsafeRunAff aff = launchAff_ ((aff <#> Right) `catchError` (\e -> pure $ Left e))
+
+-- alternative
 runner :: forall a. Aff a -> Effect Unit
 runner aff = runAff_ (case _ of
     Right r -> fakeSendToHttp r
     Left err -> fakeSendToHttp err
   ) aff
-
-
-unsafeRunAff :: forall a. Aff a -> Effect Unit
-unsafeRunAff aff = launchAff_ ((aff <#> Right) `catchError` (\e -> pure $ Left e))
-
-main :: Effect Unit
-main = do
-  log "Hello sailor!"
-
-{-
-log <<< show $ a
--}
