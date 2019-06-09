@@ -5,6 +5,7 @@ import Prelude
 import Data.Either (Either(..))
 import Effect (Effect)
 import Effect.Aff (Aff, catchError, launchAff_, runAff_)
+import Effect.Class (liftEffect)
 import Effect.Console (log)
 import Unsafe.Coerce (unsafeCoerce)
 
@@ -25,7 +26,9 @@ runner aff = runAff_ (case _ of
 
 
 unsafeRunAff :: forall a. Aff a -> Effect Unit
-unsafeRunAff aff = launchAff_ ((aff <#> Right) `catchError` (\e -> pure $ Left e))
+unsafeRunAff aff = launchAff_ (
+  (aff <#> Right) `catchError` (\e -> pure $ Left e)
+) >>= liftEffect <<< (\e -> pure unit)
 
 main :: Effect Unit
 main = do
