@@ -15,9 +15,23 @@ type Student' =
     , age :: Int
     )
 
+type Person r =
+  { name :: String
+  , weight :: Int
+  | r
+  }
 sean :: Student
 sean = { name: "s", age: 1}
 
+-- Row polymorphism
+showName :: forall r. Person r -> String
+showName r = r.name
+
+eric :: Person (age :: Int)
+eric = { name: "s", weight: 1, age: 1}
+
+oldEric :: Person (age :: Int)
+oldEric = eric { age = 99 }
 
 i :: Int
 i = 1
