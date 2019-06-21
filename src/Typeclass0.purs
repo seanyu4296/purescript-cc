@@ -8,6 +8,7 @@ import Data.Newtype (class Newtype, unwrap, wrap)
 -- Basic
 
 -- Create data types
+-- Adhoc polymorphism
 data Entity = Merchant | Branch | Holding | Silo
 
 class Show_ a where

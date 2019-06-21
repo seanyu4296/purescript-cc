@@ -1,0 +1,12 @@
+{
+  "name": "purescript-cc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/seanyu4296/purescript-cc.git",
+  "author": "seanyu4296 <seanyu4296@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "long": "^4.0.0",
+    "node-fetch": "^2.6.0"
+  }
+}

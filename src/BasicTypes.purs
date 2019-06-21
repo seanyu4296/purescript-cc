@@ -1,4 +1,4 @@
-module CC.BasicTypes where
+module CC.BasicTypes  where
 
 import Prelude
 
@@ -20,6 +20,8 @@ type Person r =
   , weight :: Int
   | r
   }
+
+type PwithAge = Person (age :: Int)
 sean :: Student
 sean = { name: "s", age: 1}
 
@@ -27,11 +29,18 @@ sean = { name: "s", age: 1}
 showName :: forall r. Person r -> String
 showName r = r.name
 
-eric :: Person (age :: Int)
+showAge :: PwithAge -> Int
+showAge p = p.age
+
+eric :: PwithAge
 eric = { name: "s", weight: 1, age: 1}
 
-oldEric :: Person (age :: Int)
-oldEric = eric { age = 99 }
+oldEric :: PwithAge
+oldEric = eric { age = 99, name = "nueric" }
+
+add :: Int -> Int -> Int
+add x y = x + y
+
 
 i :: Int
 i = 1
@@ -53,8 +62,7 @@ arr = [1,2,3,4]
 
 
 -- Sample of curried
-add :: Int -> Int -> Int
-add x y = x + y
+
 
 addOne :: Array Int -> Array Int
 addOne = map (add 1)

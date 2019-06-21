@@ -7,12 +7,13 @@ import Prelude
 
 import CC.FFI (now)
 import Control.Alt ((<|>))
+import Control.Monad.Error.Class (class MonadThrow)
 import Control.Monad.Except (ExceptT(..), throwError)
 import Control.Parallel (parTraverse)
 import Data.DateTime (Date, DateTime(..))
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
-import Effect.Aff.Class (liftAff)
+import Effect.Aff.Class (class MonadAff, liftAff)
 import Effect.Class (liftEffect)
 import Milkis (URL(..))
 import Milkis.Impl.Node (nodeFetch)
@@ -48,7 +49,7 @@ getTwoZappers id id2 = do
   pure $ case z, z2 of
     Right zr, Right zr2 -> Right $ ZapperTwo zr zr2
     _ , _ -> Left $ GenErr
-
+-- this is actually "wrong" because you try to get both
 
 -- So how do you use this
 -- runAff_ -- Go to Main2.purs
@@ -65,6 +66,14 @@ getZapper' id =
       Right r -> pure r
       Left _ -> throwError GenErr
 
+getZapper'' :: forall m.
+  Monad m => MonadThrow Err m => MonadAff m => String -> m Zapper.User
+getZapper'' id =
+  liftAff (getZapper rpcC { zapperId: id })
+    >>= case _ of
+      Right r -> pure r
+      Left _ -> throwError GenErr
+
 
 -- how to have an effect in the middle like date now
 getTwoZappers' :: ZapperId -> ZapperId -> ZapM ZapperTwo
@@ -74,6 +83,8 @@ getTwoZappers' id id2 = do
   d <- liftEffect now
   pure $ ZapperTwo z z2
 
+getTwoZappers'' :: ZapperId -> ZapperId -> ZapM ZapperTwo
+getTwoZappers'' id id2 = ZapperTwo <$> getZapper' id <*> getZapper' id2
 
 -- (<|>)
 -- What if its okay for something to fail
